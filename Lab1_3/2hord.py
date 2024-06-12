@@ -1,38 +1,30 @@
-#Метод хорд (секущих)
+# Метод хорд
 import math
 
-def example_function(x):
-    if x < 1:
-        return float('inf') # возращаем бесконечность для значений x < 1
-    return math.exp(-x) - math.sqrt(x - 1) #уравнение
+# Функция 
+def func(x):
+    return math.exp(-x) - math.sqrt(x - 1)
 
-
-def chord_method(f, a, b, eps, max_iter):
-    iteration = 0
-    if f(a) * f(b) >= 0:
-        return None
-
-    x = a - (b - a) * f(a) / (f(b) - f(a))
-
-    for _ in range(max_iter):
-        if abs(f(x)) < eps:
-            break
-
-        if f(a) * f(x) < 0:
-            b = x
+# Метод хорд для нахождения корня уравнения
+def find_root(a, b, eps):
+    if func(a) * func(b) >= 0:  # Проверка
+        raise ValueError("Нет значений")  
+        
+    while abs(b - a) > eps:  # Пока разность b и a больше точности
+        x = (a * func(b) - b * func(a)) / (func(b) - func(a))  # Вычисление новой аппроксимации корня уравнения
+        
+        if func(x) == 0:  
+            return x
+        elif func(a) * func(x) < 0:  # Если знаки значения функции в точках a и x разные
+            b = x  # Обновляем верхнюю границу интервала
         else:
-            a = x
+            a = x  # Иначе обновляем нижнюю границу интервала
 
-        x = a - (b - a) * f(a) / (f(b) - f(a))
-        iteration += 1
-    print(f"Количество итераций: {iteration}")
-    return x
+    return (a + b) / 2  # Возвращаем середину интервала как приближенный корень уравнения
+# Границы
+a = 1.0 
+b = 3.0  
+epsilon = 1e-6  # Требуемая точность
 
-a=1 #левый край
-b=3 #правый край
-epsilon=1e-6  #точность
-max_iter=1000
-root = chord_method(example_function, a, b, epsilon, max_iter)
-print(f"Корень уравнения: {root}")
-fun=example_function(root)
-print(f"Значение функции: f({root})=",fun)
+root = find_root(a, b, epsilon)  # Поиск численного корня уравнения
+print(f"Численный корень уравнения: {root}")  # Вывод результата

@@ -40,11 +40,11 @@ cout << "z3=" << polar( rho, phi ) << endl;
 
 
 // Извлечение корня n степени из комплексного числа
-cout << "Input complex number (example: -1 1) " ;
+cout << "Введите комплексное число (пример: -1 1) " ;
 cin >> real >> imag; // Ввод действительной и мнимой части через пробел
 complex zp(real, imag);
 cout << fixed << setprecision(16) << zp << endl;
-cout << "Input number n_root " ;
+cout << "Введите степень корня (n_root) " ;
 cin >> n_rt;
 cout << "\n";
 rho = abs( zp );

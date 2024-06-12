@@ -1,53 +1,41 @@
 // Метод Ньютона(касательных)
 #include <iostream>
-#include <iomanip>
 #include <cmath>
+#include <complex>
 
 using namespace std;
 
-double func(double x)
-{
-    return exp(-x) - sqrt(x - 1);
+// Функция, возвращающая значение функции в точке x
+complex<double> func(complex<double> x) {
+    return exp(-x) - sqrt(x - 1.0);
 }
 
-double dfunc(double x)
-{
-    return -exp(-x) - 1 / (2 * sqrt(x - 1));
+// Производная функции
+complex<double> derivative_func(complex<double> x) {
+    return -exp(-x) - 1.0 / (2.0 * sqrt(x - 1.0));
 }
 
-double find(double x, double eps)
-{
-    double f, df;
-    int iter = 0;
+// Метод Ньютона для нахождения корня уравнения
+complex<double> newton_method(complex<double> x0, double eps) {
+    complex<double> x_prev = x0;
+    complex<double> x_curr = x_prev - func(x_prev) / derivative_func(x_prev);
 
-    cout << "x_0 = " << x << " ";
+    // Итерационный процесс до достижения необходимой точности
+    while (abs(x_curr - x_prev) > eps) {
+        x_prev = x_curr;
+        x_curr = x_prev - func(x_prev) / derivative_func(x_prev);
+    }
 
-    do {
-        f = func(x);
-        df = dfunc(x);
-        x = x - f / df;
-        iter++;
-    } while (fabs(f) > eps && iter < 20000);
-
-    cout << "\nNumber of iterations is " << iter << endl;
-
-    return x;
+    return x_curr;
 }
 
-int main()
-{
-    double x0, x, eps;
+int main() {
+    complex<double> initial_guess = 2.0;
+    double epsilon = 1e-6;
 
-    cout << "x_0 = ";
-    cin >> x0;
+    complex<double> root = newton_method(initial_guess, epsilon);
 
-    cout << "eps = ";
-    cin >> eps;
-
-    x = find(x0, eps);
-
-    cout << "Root x = " << fixed << setprecision(16) << x << endl;
-    cout << "Function value f(x) = " << func(x) << endl;
+    cout << "Численный корень уравнения: " << root << endl;
 
     return 0;
 }

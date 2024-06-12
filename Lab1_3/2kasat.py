@@ -1,35 +1,29 @@
-# Метод Ньютона(касательных)
+# Метод Ньютона (касательных)
 import cmath
 
-def example_function(x):
-    if x.real < 1:
-        return cmath.exp(-x) - cmath.sqrt(abs(x - 1))
+# Функция, корни которой нужно найти
+def func(x):
     return cmath.exp(-x) - cmath.sqrt(x - 1)
 
-def derivative_example_function(x):
-    if x == 1:
-        return cmath.inf
+# Производная
+def derivative_func(x):
     return -cmath.exp(-x) - 1 / (2 * cmath.sqrt(x - 1))
 
-def tangent_method(f, df, x0, epsilon, max_iter):
-    x = x0
-    for i in range(max_iter):
-        f_x = f(x)
-        f_derivative = df(x)
-        x_new = x - f_x / f_derivative
+# Метод Ньютона для нахождения корня уравнения
+def newton_method(x0, eps):
+    x_prev = x0
+    x_curr = x_prev - func(x_prev) / derivative_func(x_prev)
+    
+    # Итеративный процесс до достижения заданной точности
+    while abs(x_curr - x_prev) > eps:
+        x_prev = x_curr
+        x_curr = x_prev - func(x_prev) / derivative_func(x_prev)
 
-        if abs(x_new - x) < epsilon:
-            return x_new, i + 1
-        x = x_new
+    return x_curr
 
-    return None, max_iter
+# Начальное предположение для корня и требуемая точность
+initial_guess = 2.0
+epsilon = 1e-6
 
-x0 = 1  
-epsilon = 1e-6 
-max_iter = 100 
-root, iterations = tangent_method(example_function, derivative_example_function, x0, epsilon, max_iter)
-
-print(f"Корень уравнения: {root:.12f}")
-print(f"Количество итераций: {iterations}")
-fun = example_function(root)
-print(f"Значение функции: f({root}) =", fun)
+root = newton_method(initial_guess, epsilon)
+print(f"Численный корень уравнения: {root}")

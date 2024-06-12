@@ -1,41 +1,39 @@
-//Метод дихотомии (деления пополам)
-#define _USE_MATH_DEFINES
+// Метод дихотомии (половинного деления)
 #include <iostream>
-#include <iomanip>
 #include <cmath>
+
 using namespace std;
 
-double func(double x)
-{
+// Функция
+double func(double x) {
+    
     return exp(-x) - sqrt(x - 1);
 }
-double find(double x0, double x1, double eps)
-{
-  double left = x0, right = x1, x, fl, fr, f;
-  int iter = 0;
-  cout << "a = " << x0 << "; b = " << x1 << "; ";
-  do {
-    x = (left + right) / 2;
-    f = func(x);
-    if (f > 0) right = x;
-    else left = x;
-    iter++;
-  } while (fabs(f) > eps && iter<20000);
-  cout <<"\nNumber of iterations is " << iter  << ". " << endl;
-  return x;
+
+// Метод дихотомии для нахождения корня уравнения с заданной точностью
+double find_root(double a, double b, double eps) {
+    while (abs(b - a) > eps) { // Пока разность b и a больше заданной точности
+        double mid = (a + b) / 2; // Находим середину интервала как новое приближение корня
+
+        if (func(mid) == 0) {  // Если значение уравнения в середине интервала равно нулю, возвращаем mid как корень
+            return mid;
+        } else if (func(a) * func(mid) < 0) {  // Если знаки значений функции в точках a и mid разные
+            b = mid;  // Обновляем верхнюю границу
+        } else {
+            a = mid;  // Иначе обновляем нижню
+        }
+    }
+
+    return (a + b) / 2;  // Возвращаем середину интервала как приближенный корень уравнения
 }
-int main() 
-{
-  double x0,x1,x,eps;
-  cout << "a = ";
-  cin >>x0;
-  cout << "b = ";
-  cin >>x1;
-  cout << "eps = ";
-  cin >>eps;
-  x=find(x0,x1,eps);
-  cout <<"Root x= "<< fixed << setprecision(16) << x;
-  cout <<"\nFunction value f(x)="<< func(x);
-  cin.get(); 
-  return 0;
+
+int main() {
+    double a = 1.0; // Левая граница начального интервала
+    double b = 3.0; // Правая граница начального интервала
+    double epsilon = 1e-6; // Требуемая точность
+    double root = find_root(a, b, epsilon); // Находим корень уравнения с использованием метода дихотомии
+    cout << "Численный корень уравнения: " << root << endl; // Выводим найденный численный корень
+
+    return 0;
 }
+

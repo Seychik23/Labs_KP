@@ -13,7 +13,7 @@ def secant_method(f, x_0, x_1, epsilon, max_iter):
     while iteration < max_iter:
         f_x0 = f(x_0)
         f_x1 = f(x_1)
-        if abs(f_x1 - f_x0) < 1e-15:  # Avoid division by very small numbers
+        if abs(f_x1 - f_x0) < 1e-15: 
             break
 
         x_2 = x_1 - f_x1 * (x_1 - x_0) / (f_x1 - f_x0)

@@ -1,39 +1,34 @@
-//Метод итераций
-#define _USE_MATH_DEFINES
+// Метод простых итераций
 #include <iostream>
-#include <iomanip>
 #include <cmath>
-using namespace std;
 
-double func(double x)
-{
-  return exp(-x) - sqrt(x - 1);
+// Функция, корни которой требуется найти
+double func(double x) {
+    return exp(-x) - sqrt(x - 1);
 }
 
-double find(double x, double eps)
-{
-  double x_1, x_2; 
-  int iter = 0;
-  x_2 = x;
-  do {
-    x_1=x_2;
-    x_2 = 0.2*(pow(x_1,2)+6.0);
-    cout << x_2 << "\n";
-    iter++;
-  } while (fabs(x_2 - x_1) > eps && iter<20);
-  cout <<"\nNumber of iterations is " << iter  << endl;
-  return x_2;
+// Итерационная функция для метода простых итераций
+double g(double x) {
+    return exp(-x);
 }
-int main() 
-{ 
-  double x0, eps, root;
-  cout << "x_0 = ";
-  cin >>x0;
-  cout << "eps = ";
-  cin >>eps;
-  root=find(x0, eps);
-  cout <<"Root x = "<< fixed << setprecision(16) << root;
-  cout <<"\nFunction value f(x)="<< func(root);
-  cin.get(); 
-  return 0;
+
+// Функция метода простых итераций
+double simple_iteration(double x0, double eps) {
+    double x1 = g(x0);
+    while (abs(x1 - x0) >= eps) {
+        x0 = x1;
+        x1 = g(x0);
+    }
+    return x1;
+}
+
+int main() {
+    // x0 и точность
+    double x0 = 0.0;
+    double epsilon = 1e-6;
+
+    double root = simple_iteration(x0, epsilon);
+    std::cout << "Численный корень уравнения: " << root << std::endl;
+
+    return 0;
 }

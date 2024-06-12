@@ -1,31 +1,28 @@
-#Метод дихотомии
-from math import *
+# Метод дихотомии (половинного деления)
+import math
 
-def example_function(x):
-    return exp(-x) - sqrt(x - 1) # Уравнение
+# Функция
+def func(x):
+    return math.exp(-x) - math.sqrt(x - 1)
 
-# Функция метода
-
-def dichotomy_method(f, a, b, epsilon):
-    if f(a) * f(b) > 0:
-        return None
-    iter = 0
-    while (b - a) / 2 > epsilon:
-        c = (a + b) / 2
-        iter +=1
-        if f(c) == 0:
-            return c
-        elif f(a) * f(c) < 0:
-            b = c
+# Метод половинного деления для нахождения корня уравнения
+def find_root(a, b, eps):
+    while abs(b - a) > eps:
+        mid = (a + b) / 2
+        if func(mid) == 0:
+            return mid
+        elif func(a) * func(mid) < 0:
+            b = mid
         else:
-            a = c
-    print(f"Количество итераций: {iter}") 
+            a = mid
+
     return (a + b) / 2
 
-a=1 #левый край
-b=3 #правый край
-epsilon=1e-6 #точность
-root = dichotomy_method(example_function, a, b, epsilon)
-print(f"Решение уравнения: x = {root}")
-fun=example_function(root)
-print(f"Значение функции: f({root})=",fun)
+# Начальные границы интервала и требуемая точность
+a = 1.0
+b = 3.0
+epsilon = 1e-6
+
+
+root = find_root(a, b, epsilon)
+print(f"Численный корень уравнения: {root}")

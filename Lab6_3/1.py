@@ -25,7 +25,7 @@ for i in range(iterations):
     x3_list.append(x3)
     loss_list.append(objective(x1, x2, x3))
 
-    # Вычисляем градиенты
+    # Вычисляем произв
     grad_x1 = 2 * x1 * np.exp(x1**2 + x2**2)
     grad_x2 = 2 * x2 * np.exp(x1**2 + x2**2) + 2 * x2 / (4 + x2**2 + 2 * x3**2)
     grad_x3 = 4 * x3 / (4 + x2**2 + 2 * x3**2)
@@ -45,7 +45,7 @@ optimal_x1, optimal_x2, optimal_x3 = x1_list[-1], x2_list[-1], x3_list[-1]
 print('Optimal values: x1 =', optimal_x1, 'x2 =', optimal_x2, 'x3 =', optimal_x3)
 print('Optimal f:', objective(optimal_x1, optimal_x2, optimal_x3))
 
-# Визуализация
+# Визуализация графиком
 fig, ax = plt.subplots()
 ax.plot(x1_list, label='x1')
 ax.plot(x2_list, label='x2')

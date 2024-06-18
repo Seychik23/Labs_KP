@@ -4,7 +4,8 @@
         "ostream": "cpp",
         "cmath": "cpp",
         "complex": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "vector": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled",
     "python.analysis.autoImportCompletions": true
